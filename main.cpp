@@ -1,9 +1,16 @@
-// Lab 5 - Matrix Operations
+//Name: Erick Marte
+//Lab Assignment 5 (Wed 1:00)
+//Description: program performs a variety of matrix operations on two given matrices
 // Reads N and two N x N matrices from a file, then performs:
 //   1. print both matrices          5. swap two rows
 //   2. A + B                        6. swap two columns
 //   3. A * B                        7. update one element
 //   4. main / secondary diagonal sums
+//Inputs: a txt file containing 2 matrices and a dimension (N)
+//Output: text of the modified matrices
+//Sources: Claude
+//Date: 9/30/2026
+//Revised: 9/30/2026
 
 #include <iostream>
 #include <fstream>
