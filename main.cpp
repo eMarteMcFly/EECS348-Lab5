@@ -79,9 +79,9 @@ bool readMatrices(const string& filename, Matrix& a, Matrix& b) {
     b.assign(n, vector<int>(n));
 
     for (Matrix* m : {&a, &b}) {
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (!(in >> (*m)[i][j])) {
+        for (int i = 0; i < n; ++i) {        //iterates over each row
+            for (int j = 0; j < n; ++j) {    //iterates over each column
+                if (!(in >> (*m)[i][j])) {    //checks if the input contains a full matrix
                     cerr << "Error: file ended early or contains a non-integer value "
                          << "(expected " << 2 * n * n << " matrix values).\n";
                     return false;
@@ -96,11 +96,11 @@ bool readMatrices(const string& filename, Matrix& a, Matrix& b) {
 // Problem 2: C = A + B
 // ---------------------------------------------------------------------------
 Matrix addMatrices(const Matrix& a, const Matrix& b) {
-    size_t n = a.size();
-    Matrix c(n, vector<int>(n));
-    for (size_t i = 0; i < n; ++i)
-        for (size_t j = 0; j < n; ++j)
-            c[i][j] = a[i][j] + b[i][j];
+    size_t n = a.size();            //NxN matrices
+    Matrix c(n, vector<int>(n));    //initialize result matrix
+    for (size_t i = 0; i < n; ++i)    //iterates over each row
+        for (size_t j = 0; j < n; ++j)    //iterates over each column
+            c[i][j] = a[i][j] + b[i][j];    //adding all corresponding entries
     return c;
 }
 
@@ -109,12 +109,12 @@ Matrix addMatrices(const Matrix& a, const Matrix& b) {
 // ---------------------------------------------------------------------------
 Matrix multiplyMatrices(const Matrix& a, const Matrix& b) {
     size_t n = a.size();
-    Matrix c(n, vector<int>(n));
+    Matrix c(n, vector<int>(n));            //initialize result matrix
     for (size_t i = 0; i < n; ++i) {          // result row
         for (size_t j = 0; j < n; ++j) {      // result column
             int sum = 0;                      // reset for every entry
             for (size_t k = 0; k < n; ++k)    // walk row i of A / column j of B
-                sum += a[i][k] * b[k][j];
+                sum += a[i][k] * b[k][j];    //summing the products of row entries x col entires
             c[i][j] = sum;
         }
     }
@@ -128,9 +128,9 @@ Matrix multiplyMatrices(const Matrix& a, const Matrix& b) {
 void printDiagonalSums(const Matrix& m) {
     int n = static_cast<int>(m.size());
     int mainSum = 0, secondarySum = 0;
-    for (int i = 0; i < n; ++i) {
-        mainSum += m[i][i];
-        secondarySum += m[i][n - 1 - i];
+    for (int i = 0; i < n; ++i) {        //matrix has one diagonal so only one iteration is needed
+        mainSum += m[i][i];                //sums entries along main diagonal
+        secondarySum += m[i][n - 1 - i];    //sums entires along secondary diagonal
     }
     cout << "Main diagonal sum: " << mainSum << '\n';
     cout << "Secondary diagonal sum: " << secondarySum << "\n\n";
@@ -142,7 +142,7 @@ void printDiagonalSums(const Matrix& m) {
 // ---------------------------------------------------------------------------
 void swapRows(Matrix m, int r1, int r2) {
     int n = static_cast<int>(m.size());
-    if (!validIndex(r1, n) || !validIndex(r2, n)) {
+    if (!validIndex(r1, n) || !validIndex(r2, n)) {        //validity checking
         cout << "Invalid row index (" << r1 << ", " << r2
              << "). Valid range is 0 to " << n - 1 << ". Matrix unchanged.\n\n";
         return;
@@ -157,13 +157,13 @@ void swapRows(Matrix m, int r1, int r2) {
 // ---------------------------------------------------------------------------
 void swapColumns(Matrix m, int c1, int c2) {
     int n = static_cast<int>(m.size());
-    if (!validIndex(c1, n) || !validIndex(c2, n)) {
+    if (!validIndex(c1, n) || !validIndex(c2, n)) {        //validity checking
         cout << "Invalid column index (" << c1 << ", " << c2
              << "). Valid range is 0 to " << n - 1 << ". Matrix unchanged.\n\n";
         return;
     }
     for (auto& row : m)
-        swap(row[c1], row[c2]);
+        swap(row[c1], row[c2]);        //swaps rows
     cout << "Problem 6 - Columns " << c1 << " and " << c2 << " swapped:\n";
     printMatrix(m);
 }
@@ -173,12 +173,12 @@ void swapColumns(Matrix m, int c1, int c2) {
 // ---------------------------------------------------------------------------
 void updateElement(Matrix m, int row, int col, int value) {
     int n = static_cast<int>(m.size());
-    if (!validIndex(row, n) || !validIndex(col, n)) {
+    if (!validIndex(row, n) || !validIndex(col, n)) {    //validity checking
         cout << "Invalid position (" << row << ", " << col
              << "). Valid range is 0 to " << n - 1 << ". Matrix unchanged.\n\n";
         return;
     }
-    m[row][col] = value;
+    m[row][col] = value;        //sets new value
     cout << "Problem 7 - Updated matrix:\n";
     printMatrix(m);
 }
@@ -217,9 +217,9 @@ int main(int argc, char* argv[]) {
     printDiagonalSums(a);
 
     // Problems 5-7 each start from the original Matrix A
-    swapRows(a, 0, 2);
-    swapColumns(a, 0, 2);
-    updateElement(a, 1, 2, 99);
+    swapRows(a, 0, 2);        //swapping rows 0, 2
+    swapColumns(a, 0, 2);        //swapping columns 0, 2
+    updateElement(a, 1, 2, 99);    //changing (1, 2) to 99
 
     return 0;
 }
